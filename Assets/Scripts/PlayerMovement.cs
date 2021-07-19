@@ -13,19 +13,18 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     float last_x;
     float last_z;
+    public bool isAttack = false;
 
     void Start()
     {
-        speed = 3.0f;
-        jumpSpeed = 8.0f;
-        gravity = 20f;
-
         MoveDir = Vector3.zero;
         controller = GetComponent<CharacterController>();
     }
 
     private void FixedUpdate()
     {
+
+
         // 현재 캐릭터가 땅에 있는가?
         if (controller.isGrounded)
         {
@@ -59,9 +58,21 @@ public class PlayerMovement : MonoBehaviour
             // 스피드 증가.
             MoveDir *= speed;
 
+            // 캐릭터 대쉬
+            // ToDO 쿨타임 필요
+            // 애니메이션 필요
+            //if (Input.GetButton("Jump"))
+            //{
+            //    MoveDir.x = jumpSpeed * Input.GetAxisRaw("Horizontal");
+            //    MoveDir.z = jumpSpeed * Input.GetAxisRaw("Vertical");
+            //}
+
+
+
+
             // 캐릭터 점프
-            if (Input.GetButton("Jump"))
-                MoveDir.y = jumpSpeed;
+            //if (Input.GetButton("Jump"))
+            //    MoveDir.y = jumpSpeed;
 
         }
 
@@ -72,10 +83,33 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(MoveDir * Time.deltaTime);
     }
 
-
-
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            animator.SetTrigger("IsAtk");
+            isAttack = true;
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
 
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+
+        }
+
+        if (isAttack == true)
+        {
+            speed = 0;
+        }else
+        {
+            speed = 5;
+        }
     }
+
 }
