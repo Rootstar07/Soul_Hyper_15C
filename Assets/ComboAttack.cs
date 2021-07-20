@@ -28,8 +28,8 @@ public class ComboAttack : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isAtk)
         {
-            Debug.Log("Space 키 입력");
-            SetAtk();
+            //Debug.Log("Space 키 입력");
+            //SetAtk();
             isAtk = true;
         }
     }
@@ -50,6 +50,7 @@ public class ComboAttack : MonoBehaviour
             slider.value += Time.deltaTime * sliderSpeed;
             yield return null;
         }
+        /*
         if(slider.value >= minPos && slider.value <= maxpos)
         {
             MakeCombo(combo++);
@@ -70,6 +71,7 @@ public class ComboAttack : MonoBehaviour
             isAtk = false;
         }
         slider.value = 0;
+        */
     }
 
 }
