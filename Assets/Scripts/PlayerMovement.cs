@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float noramlSpeed;
     public float GuardSpeed;
     public float speed;
-    
+
     [Space]
     public float dashSpeed;
     public float gravity;
@@ -27,12 +27,18 @@ public class PlayerMovement : MonoBehaviour
     public float minPos;
     public float maxPos;
     public RectTransform pass;
-    float sliderSpeed = 100;
+    //float sliderSpeed = 100;
     public bool comboStart = false;
     public int nowCombo = 0;
 
     public bool nowSlide = false;
     public bool canCombo = false;
+
+    [Header("피격 변수")]
+    public bool enough = false;
+
+    [Header("패링 변수")]
+    public bool canParling = false;
 
     void Start()
     {
@@ -42,53 +48,88 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-
-        // Q를 눌렀을때
-        if (Input.GetKeyDown(KeyCode.Q))
+        // 데미지 상태가 아니라면 키 입력 가능
+        if (animator.GetBool("isHit") == false)
         {
-            // 대쉬 상태라면
-            if (animator.GetBool("isDash") == true)
+            // Q를 눌렀을때
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                animator.SetBool("isSlideAttack", true);
-                // 예외처리
-                animator.SetBool("isAttack0", false);
-                animator.SetBool("isAttack1", false);
-                animator.SetBool("isAttack2", false);
-            }
-            // 처음 공격 상태라면
-            else if(animator.GetBool("isAttack0") == false
-                    && animator.GetBool("isAttack1") == false 
-                    && animator.GetBool("isAttack2") == false)
-            {
-                animator.SetBool("isAttack0", true);
-                nowCombo = 0;
-                canMove = false;
-            }
-            // 콤보 공격중이라면
-            else if (animator.GetBool("isAttack0") == true
-                    || animator.GetBool("isAttack1") == true
-                    || animator.GetBool("isAttack2") == true)
-            {
-                // 콤보영역에 들어옴
-                if (canCombo == true)
+                // 대쉬 상태라면
+                if (animator.GetBool("isDash") == true)
                 {
-                    canCombo = false;
-                    nowCombo++;
-                    if (nowCombo == 1)
-                    {
-                        animator.SetBool("isAttack1", true);
-                    }
-                    else if (nowCombo == 2)
-                    {
-                        animator.SetBool("isAttack2", true);
-                    }
+                    animator.SetBool("isSlideAttack", true);
+                    // 예외처리
+                    animator.SetBool("isAttack0", false);
+                    animator.SetBool("isAttack1", false);
+                    animator.SetBool("isAttack2", false);
                 }
-                else
+                // 처음 공격 상태라면
+                else if (animator.GetBool("isAttack0") == false
+                        && animator.GetBool("isAttack1") == false
+                        && animator.GetBool("isAttack2") == false)
                 {
+                    animator.SetBool("isAttack0", true);
+                    nowCombo = 0;
+                    canMove = false;
+                }
+                // 콤보 공격중이라면
+                else if (animator.GetBool("isAttack0") == true
+                        || animator.GetBool("isAttack1") == true
+                        || animator.GetBool("isAttack2") == true)
+                {
+                    // 콤보영역에 들어옴
+                    if (canCombo == true)
+                    {
+                        canCombo = false;
+                        nowCombo++;
+                        if (nowCombo == 1)
+                        {
+                            animator.SetBool("isAttack1", true);
+                        }
+                        else if (nowCombo == 2)
+                        {
+                            animator.SetBool("isAttack2", true);
+                        }
+                    }
+                    else
+                    {
 
+                    }
                 }
+            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                animator.SetBool("isGuard", true);
+            }
+            if (Input.GetKeyUp(KeyCode.E))
+            {
+                animator.SetBool("isGuard", false);
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+
+            }
+
+            if (animator.GetBool("isGuard") == true)
+            {
+                speed = GuardSpeed;
+            }
+            else if (canMove == true)
+            {
+                speed = noramlSpeed;
+            }
+            else
+            {
+                speed = 0;
             }
         }
+
+
 
         //******************************* 슬라이드식 콤보 어택 **********************************************************
 
@@ -143,45 +184,13 @@ public class PlayerMovement : MonoBehaviour
         */
 
 
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            animator.SetBool("isGuard", true);
-        }
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            animator.SetBool("isGuard", false);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-
-        }
-
-        if (animator.GetBool("isGuard") == true)
-        {
-            speed = GuardSpeed;
-        }
-        else if (canMove == true)
-        {
-            speed = noramlSpeed;
-        }
-        else
-        {
-            speed = 0;
-        }
-
-
     }
 
 
     private void FixedUpdate()
     {
-        // 현재 캐릭터가 땅에 있는가?
-        if (controller.isGrounded)
+        // 현재 캐릭터가 땅에 있고 공격상태가 아니라면
+        if (controller.isGrounded && animator.GetBool("isHit") == false)
         {
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) //하나라도 움직인다.
             {
@@ -198,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                     PlayerSprite.flipX = true;
 
-                    animator.SetFloat("_Y", MoveDir.z);
+                animator.SetFloat("_Y", MoveDir.z);
                 last_z = MoveDir.z;
 
                 animator.SetBool("IsMoving", true);
@@ -248,10 +257,34 @@ public class PlayerMovement : MonoBehaviour
         MoveDir.y -= gravity * Time.deltaTime;
 
         // 캐릭터 움직임.
-        controller.Move(MoveDir * Time.deltaTime);
+        if (animator.GetBool("isHit") == false)
+        {
+            controller.Move(MoveDir * Time.deltaTime);
+        }
+        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // 이미 맞은 상태가 아니라면
+        if (enough == false)
+        {
+            if (other.tag == "EnemyAttack")
+            {
+                if (animator.GetBool("isGuard"))
+                {
+                    Debug.Log("가드 성공");
+                }
+                else
+                {
+                    Debug.Log("공격 감지");
+                    animator.SetBool("isHit", true);
+                    animator.SetBool("isDash", false);
+                    nowSlide = false;
+                }
+            }
+        }
     }
 
 
-
-    
-    }
+}

@@ -47,4 +47,20 @@ public class PlayerAnimation : MonoBehaviour
         playerMovement.canCombo = false;
     }
 
+    public void HitStop()
+    {
+        animator.SetBool("isHit", false);
+        playerMovement.enough = false;
+    }
+
+    public void paringStart()
+    {
+        playerMovement.canParling = true;
+    }
+
+    public void paringEnd()
+    {
+        playerMovement.canParling = false;
+    }
+
 }
