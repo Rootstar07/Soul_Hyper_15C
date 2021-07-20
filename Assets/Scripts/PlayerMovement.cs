@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("플레이어 속도")]
+    public float noramlSpeed;
+    public float GuardSpeed;
     public float speed;
+    
+    [Space]
     public float dashSpeed;
     public float gravity;
 
@@ -143,22 +148,30 @@ public class PlayerMovement : MonoBehaviour
         {
 
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
-
+            animator.SetBool("isGuard", true);
+        }
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            animator.SetBool("isGuard", false);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
 
         }
 
-        if (canMove == false)
+        if (animator.GetBool("isGuard") == true)
         {
-            speed = 0;
+            speed = GuardSpeed;
+        }
+        else if (canMove == true)
+        {
+            speed = noramlSpeed;
         }
         else
         {
-            speed = 5;
+            speed = 0;
         }
 
 
@@ -179,12 +192,13 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetFloat("_X", MoveDir.x);
                 last_x = MoveDir.x;
 
-                if (last_x > 0)
+                // ******************* 스프라이트 방향 정하는 메커니즘 ******************************************
+                if (Input.GetAxisRaw("Horizontal") >= 0)
                     PlayerSprite.flipX = false;
                 else
                     PlayerSprite.flipX = true;
 
-                animator.SetFloat("_Y", MoveDir.z);
+                    animator.SetFloat("_Y", MoveDir.z);
                 last_z = MoveDir.z;
 
                 animator.SetBool("IsMoving", true);
