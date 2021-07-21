@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("게임 매니저")]
+    public GameManager gamemanager;
+
     [Header("플레이어 속도")]
     public float noramlSpeed;
     public float GuardSpeed;
@@ -38,7 +41,11 @@ public class PlayerMovement : MonoBehaviour
     public bool enough = false;
 
     [Header("패링 변수")]
-    public bool canParling = false;
+    public bool canParing = false;
+
+    [Header("공격과 패리 콜라이더 위치")]
+    public GameObject attackCollider;
+    public GameObject parryCollider;
 
     void Start()
     {
@@ -203,9 +210,36 @@ public class PlayerMovement : MonoBehaviour
 
                 // ******************* 스프라이트 방향 정하는 메커니즘 ******************************************
                 if (Input.GetAxisRaw("Horizontal") >= 0)
+                {
                     PlayerSprite.flipX = false;
+
+                    attackCollider.transform.position = new Vector3(
+                        transform.position.x + 0.85f,
+                        transform.position.y,
+                        transform.position.z
+                        );
+
+                    parryCollider.transform.position = new Vector3(
+                        transform.position.x + 0.85f,
+                        transform.position.y,
+                        transform.position.z
+                        );
+                }                 
                 else
+                {
                     PlayerSprite.flipX = true;
+
+                    attackCollider.transform.position = new Vector3(
+                    transform.position.x - 0.85f,
+                    transform.position.y,
+                    transform.position.z);
+
+                    parryCollider.transform.position = new Vector3(
+                        transform.position.x - 0.85f,
+                        transform.position.y,
+                        transform.position.z
+                        );
+                }                 
 
                 animator.SetFloat("_Y", MoveDir.z);
                 last_z = MoveDir.z;
@@ -261,7 +295,7 @@ public class PlayerMovement : MonoBehaviour
         {
             controller.Move(MoveDir * Time.deltaTime);
         }
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -273,18 +307,28 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (animator.GetBool("isGuard"))
                 {
-                    Debug.Log("가드 성공");
+                    if (canParing == true)
+                    {
+                        // 매니저에 정보전달
+                        gamemanager.Damage(other.GetComponent<BrainBridge>().brain.damage, "Parry");
+
+                        // 적의 모션 변경
+                        other.GetComponent<BrainBridge>().brain.Parryed();
+                    }
+                    else
+                    {
+                        gamemanager.Damage(other.GetComponent<BrainBridge>().brain.damage, "Defense");
+                    }
                 }
                 else
                 {
-                    Debug.Log("공격 감지");
+                    gamemanager.Damage(other.GetComponent<BrainBridge>().brain.damage, "Hit");
                     animator.SetBool("isHit", true);
                     animator.SetBool("isDash", false);
                     nowSlide = false;
                 }
+
             }
         }
     }
-
-
 }

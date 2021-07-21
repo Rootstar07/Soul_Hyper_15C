@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     Animator animator;
+    public GameManager gameManager;
     PlayerMovement playerMovement;
+    public bool isParryingAttack = false;
 
     private void Start()
     {
@@ -55,12 +57,34 @@ public class PlayerAnimation : MonoBehaviour
 
     public void paringStart()
     {
-        playerMovement.canParling = true;
+        playerMovement.canParing = true;
     }
 
     public void paringEnd()
     {
-        playerMovement.canParling = false;
+        playerMovement.canParing = false;
+    }
+
+    public void parryAttackEnd()
+    {
+        animator.SetBool("isParryAttack", false);
+        animator.SetBool("isAttack0", false);
+        animator.SetBool("isAttack1", false);
+        animator.SetBool("isAttack2", false);
+
+        playerMovement.canMove = true;
+    }
+
+    public void DamageUp()
+    {
+        gameManager.isParredAttack = true;
+        gameManager.changeDamage();
+    }
+
+    public void DamageNormal()
+    {
+        gameManager.isParredAttack = false;
+        gameManager.changeDamage();
     }
 
 }
