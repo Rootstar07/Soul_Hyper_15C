@@ -21,9 +21,9 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: 1579c7c4434a1a14da0b9eab79307d62, type: 3}
-    - time: 0.05
+    - time: 0.1
       value: {fileID: 21300000, guid: 68d7208f85915464eb647f6ac1f684fb, type: 3}
-    - time: 0.083333336
+    - time: 0.16666667
       value: {fileID: 21300000, guid: 68d7208f85915464eb647f6ac1f684fb, type: 3}
     attribute: m_Sprite
     path: 
@@ -52,7 +52,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.1
+    m_StopTime: 0.18333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -79,7 +79,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.05
+  - time: 0.083333336
     functionName: paringEnd
     data: 
     objectReferenceParameter: {fileID: 0}
