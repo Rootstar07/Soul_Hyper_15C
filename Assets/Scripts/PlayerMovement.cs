@@ -300,9 +300,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // 이미 맞은 상태가 아니라면
-        if (enough == false)
-        {
+            // 이미 맞은 상태가 아니라면
+            if (enough == false)
+            {
+
             if (other.tag == "EnemyAttack")
             {
                 if (animator.GetBool("isGuard"))
@@ -322,12 +323,12 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("플레이어 공격받음");
                     gamemanager.Damage(other.GetComponent<BrainBridge>().brain.damage, "Hit");
                     animator.SetBool("isHit", true);
                     animator.SetBool("isDash", false);
                     nowSlide = false;
                 }
-
             }
         }
     }
