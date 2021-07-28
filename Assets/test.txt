@@ -1,0 +1,18 @@
+#SAY.Test.1.송하빵
+1
+
+#SAY.Test.2.박메건
+2
+
+#SAY.Test.4.송하빵
+안녕
+
+#CHARACTER.박메건
+박메건
+
+#CHARACTER.송하빵
+송하빵
+
+#CHARACTER.Character Name
+Character Name
+

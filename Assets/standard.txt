@@ -1,9 +1,0 @@
-#SAY.Flowchart.1.
-안녕2
-
-#CHARACTER.김상덕씨
-김상덕씨
-
-#CHARACTER.Character Name
-Character Name
-
