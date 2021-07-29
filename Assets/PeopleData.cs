@@ -3,51 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+[System.Serializable]
+public struct PhaseInfo
+{
+    [SerializeField]
+    [TextArea]
+    public string 페이즈내용;
+
+    [SerializeField]
+    public CommentInfo[] 코멘트데이터;
+}
+
+[System.Serializable]
+public struct CommentInfo
+{
+    [TextArea]
+    public string 코멘트;
+    public bool 활성여부;
+}
+
 public class PeopleData : MonoBehaviour
 {
-    public PhaseData phasedata;
-    public string 이름;
+    public int 인물코드;
+    [Header("인물이 물음표든 이름이 있든 관계도에 있는지")]
+    public bool 인물활성화여부;
     public bool 물음표여부;
-    [TextArea]
-    public string 인물설명;
-    [Header("인물 설명 타켓")]
-    public TextMeshProUGUI targetText;
+    public string 이름;
+
+    [SerializeField]
+    PhaseInfo[] phaseInfo;
     [Space]
-    [Header("페이즈 관리 최대 8개")]
-    public int 현재페이즈;
-    [Space]
-    [TextArea]
-    public string[] 페이즈;
+    [Header("페이즈 관리")]
+    public int 활성화된페이즈개수;
 
-    GameObject[] list;
 
-    private void Start()
+    // 클릭해서 부모 컴포넌트에 정보전달
+    public void PeopleClicked()
     {
-        deletePhase();
+        transform.parent.GetComponent<PeopleManager>().ClickedPeople(인물코드, 활성화된페이즈개수, phaseInfo);
     }
 
-    public void PhaseOn()
-    {     
-        deletePhase();
-        list = phasedata.phaseList;
-
-        //설명 변경
-        targetText.text = 인물설명;
-
-        for (int i =0; i< 현재페이즈; i++)
-        {
-            // 활성화 + 존재하는 페이즈를 활성화하고 텍스트 전달
-            list[i].SetActive(true);
-            list[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = 페이즈[i];
-        }
-    }
-
-    public void deletePhase()
-    {
-        list = phasedata.phaseList;
-        for (int i = 0; i < list.Length; i++)
-        {
-            list[i].SetActive(false);
-        }
-    }
 }
