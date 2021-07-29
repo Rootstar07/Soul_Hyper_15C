@@ -64,7 +64,7 @@ public class PeopleManager : MonoBehaviour
         }
 
         // 시작할때 한번 업데이트
-        UpdatePeople();
+        
         //phaseObject.SetActive(false);
 
         // 초기 데이터 불러옴
@@ -72,6 +72,7 @@ public class PeopleManager : MonoBehaviour
         //File.WriteAllText(Application.persistentDataPath + "/initData.txt", jsonData);
 
         ImportJson();
+        UpdatePeople();
 
     }
 
@@ -79,13 +80,13 @@ public class PeopleManager : MonoBehaviour
     {
         // 클래스 json로 변환하게 내보내기
         string jsonData = JsonConvert.SerializeObject(sDatas);
-        File.WriteAllText(Application.persistentDataPath + "/saveData.txt", jsonData);
+        File.WriteAllText(Application.persistentDataPath + "/saveData.json", jsonData);
         Debug.Log("내보내기 완료");
     }
 
     public void ImportJson()
     {
-        string data = File.ReadAllText(Application.persistentDataPath + "/saveData.txt");
+        string data = File.ReadAllText(Application.persistentDataPath + "/saveData.json");
         sDatas = JsonConvert.DeserializeObject<SData[]>(data);
         Debug.Log(data);
         Debug.Log("임포트 데이터: " + sDatas[0].인물활성화여부);
@@ -95,48 +96,38 @@ public class PeopleManager : MonoBehaviour
     // 관계도에 표시 관리
     public void UpdatePeople()
     {
-        /*
-        for (int i =0; i< transform.childCount; i++)
-        {
-            if (peopleList[i].GetComponent<PeopleData>().인물활성화여부 == true)
-            {
-                peopleList[i].SetActive(true);
-                UpdateName(peopleList[i]);
-            }
-            else
-            {
-                peopleList[i].SetActive(false);
-            }
-        }
-        */
-
         for (int i =0; i< sDatas.Length; i++)
         {
             if (sDatas[i].인물활성화여부 == true)
             {
                 peopleList[i].SetActive(true);
+
+                // 이름관리
+                UpdateName(i);
             }
+
             else
             {
                 peopleList[i].SetActive(false);
             }
         }
-
-        Debug.Log(sDatas[0].인물활성화여부);
     }
     
     // 이름 혹은 물음표 관리
-    void UpdateName(GameObject target)
+    void UpdateName(int code)
     {
-        if (target.GetComponent<PeopleData>().물음표여부 == true)
+        if (sDatas[code].물음표여부 == true)
         {
-            target.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "?";
+            peopleList[code].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "?";
         }
         else
         {
-            target.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = target.GetComponent<PeopleData>().이름;
+            peopleList[code].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = sDatas[code].이름;
         }
     }
+
+
+
 
     public void ClickedPeople(int code, int 활성화된페이즈개수, PhaseInfo[] 페이즈정보)
     {
