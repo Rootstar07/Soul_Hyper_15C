@@ -22,7 +22,6 @@ public class TalkManager : MonoBehaviour
     {
         talkData.SetActive(false);
         DeletePhase();
-
     }
 
     private void Update()
@@ -90,11 +89,7 @@ public class TalkManager : MonoBehaviour
 
                     break;
                 }
-
             }
-
-
-
         }
     }
 
