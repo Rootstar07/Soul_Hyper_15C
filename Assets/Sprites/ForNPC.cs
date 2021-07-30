@@ -6,6 +6,7 @@ public class ForNPC : MonoBehaviour
 {
     public GameObject alert;
     public TalkManager talkManager;
+    public int NPC코드;
 
     private void Start()
     {
@@ -17,7 +18,7 @@ public class ForNPC : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             alert.SetActive(true);
-            talkManager.canTalk = true;
+            other.GetComponent<PlayerMovement>().nPCCode = NPC코드;
         }
     }
 
@@ -25,7 +26,7 @@ public class ForNPC : MonoBehaviour
     {
         {
             alert.SetActive(false);
-            talkManager.canTalk = false;
+            other.GetComponent<PlayerMovement>().nPCCode = 0;
         }
     }
 }

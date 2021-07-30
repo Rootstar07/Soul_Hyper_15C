@@ -20,8 +20,10 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     float last_x;
     float last_z;
-    public bool canMove = true;
     public SpriteRenderer PlayerSprite;
+
+    [Space]
+    public int nPCCode;
 
     void Start()
     {
