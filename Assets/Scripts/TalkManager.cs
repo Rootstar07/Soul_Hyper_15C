@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Fungus;
 using Newtonsoft.Json;
 using System.IO;
+using TMPro;
 
 public class TalkManager : MonoBehaviour
 {
@@ -78,6 +79,15 @@ public class TalkManager : MonoBehaviour
                 {
                     Debug.Log("출력!");
                     페이즈리스트[i].SetActive(true);
+
+                    // 페이즈 내용 변경
+                    페이즈리스트[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                        DataManager.instance.basicDatas[Basicdatas_Index].페이즈리스트[j].페이즈데이터;
+
+                    // 페이즈 이름 변경
+                    페이즈리스트[i].transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                        DataManager.instance.basicDatas[Basicdatas_Index].이름;
+
                     break;
                 }
 
