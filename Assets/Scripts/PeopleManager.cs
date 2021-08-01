@@ -178,19 +178,13 @@ public class PeopleManager : MonoBehaviour
     {
         DeleteComment();
 
-        for (int i = 0; i < DataManager.instance.basicDatas[클릭한인물코드].페이즈리스트[현재페이즈코드].코멘트데이터리스트.Length; i++)
+        for (int i = 0; i < 6; i++)
         {
-                if (DataManager.instance.basicDatas[클릭한인물코드].페이즈리스트[현재페이즈코드].코멘트데이터리스트[i].코멘트활성화여부 == true)
-                {
-                commentList[i].GetComponent<TextMeshProUGUI>().text =
-                    DataManager.instance.basicDatas[클릭한인물코드].페이즈리스트[현재페이즈코드].코멘트데이터리스트[i].코멘트데이터;
-                }
-                else
-                {
-                    commentList[i].GetComponent<TextMeshProUGUI>().text = "";
-                }
+            commentList[i].GetComponent<TextMeshProUGUI>().text =
+                DataManager.instance.basicDatas[클릭한인물코드].페이즈리스트[현재페이즈코드].코멘트데이터[i];
         }
     }
+
     public void DeleteComment()
     {
         for (int i =0; i< 6; i++)

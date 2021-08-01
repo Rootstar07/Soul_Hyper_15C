@@ -26,7 +26,8 @@ public class DataManager : MonoBehaviour
         public bool 페이즈활성여부;
         [TextArea]
         public string 페이즈데이터;
-        public PlayerDataTest[] 코멘트데이터리스트;
+        [TextArea]
+        public string[] 코멘트데이터;
     }
 
     [System.Serializable]
@@ -41,19 +42,44 @@ public class DataManager : MonoBehaviour
     public class NPCData
     {
         public int NPC코드;
-        public int[] 가능한페이즈리스트;
+        public string NPC이름;
+        [TextArea]
+        public string NPC기본대사;
+        [Space]
+        public PhaseData[] 가능한페이즈리스트;
     }
+
+    [System.Serializable]
+    public class PhaseData
+    {
+        public int 페이즈코드;
+        public int 저장된대화위치;
+        [TextArea]
+        public string 저장한대화;
+        public bool 새로운정보여부;
+        [Space]
+        public TalkData[] 대화리스트;
+    }
+
+    [System.Serializable]
+    public class TalkData
+    {
+        public string 대화중인캐릭터이름;
+        public bool 저장한대화여부;
+        [TextArea]
+        public string 대화데이터;
+        public State 표정;
+        public int 활성화할페이즈;
+        public int 활상화할오브젝트;
+    }
+
+    public enum State { 기본, 놀람, 분노, 슬픔 }
 
     public static DataManager instance;
 
     private void Awake()
     {
         instance = this;
-    }
-
-    private void Start()
-    {
-        ExportData();
     }
 
     public void ExportData()

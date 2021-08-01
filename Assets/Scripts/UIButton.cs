@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
+
 
 public class UIButton : MonoBehaviour
 {
     public GameObject targetCanvas;
     public PeopleManager peopleManager;
     public Animator animator;
+    [Space]
+    public GameObject npcData;
+    public Image backGroundImage;
 
     public void OpenCloseUI()
     {
@@ -25,6 +30,16 @@ public class UIButton : MonoBehaviour
             // 캔버스 열기
             targetCanvas.SetActive(true);
             animator.SetBool("isOpen", true);
+
+            // npc 대화 중이라면 배경을 좀 더 어둡게
+            if (npcData.activeSelf == true)
+            {
+                backGroundImage.enabled = true;
+            }
+            else
+            {
+                backGroundImage.enabled = false;
+            }
         }
     }
 
@@ -32,17 +47,5 @@ public class UIButton : MonoBehaviour
     {
         targetCanvas.SetActive(false);
     }
-
-
-
-        /*
-        for (int i =0; i < peopleList.Length; i++)
-        {
-            if (json.myIndexList.pIndex[i].활성화여부 == true)
-            {
-                peopleList[i].SetActive(true);
-            }
-        }
-        */
 
 }

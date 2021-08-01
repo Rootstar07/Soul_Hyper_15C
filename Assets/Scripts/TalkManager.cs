@@ -18,6 +18,24 @@ public class TalkManager : MonoBehaviour
     [Space]
     public GameObject[] 페이즈리스트;
 
+    public Button commentSaveButton;
+
+    [Header("현재 진행 중인 대화 데이터")]
+    public TextMeshProUGUI TalkText;
+    public TextMeshProUGUI NameText;
+    public Button BeforeButton;
+    public Button NextButton;
+    public GameObject 대화종료버튼;
+    public int 현재페이즈인덱스;
+    public int 현재대화인덱스;
+    public int 대화최대인덱스;
+    public int 현재베이직데이터인덱스;
+    public int 현재베이직페이즈인덱스;
+    public int 현재저장된코멘트데이터인덱스;
+
+    [TextArea]
+    public string 현재대화데이터;
+
     private void Start()
     {
         talkData.SetActive(false);
@@ -41,7 +59,7 @@ public class TalkManager : MonoBehaviour
 
                 // 코드에 따른 페이즈 생성
 
-            for (int i =0; i< DataManager.instance.nPCDatas.Length; i++)
+            for (int i = 0; i < DataManager.instance.nPCDatas.Length; i++)
                 {
                     if (DataManager.instance.nPCDatas[i].NPC코드 == nowNPCCOde)
                     {
@@ -52,45 +70,189 @@ public class TalkManager : MonoBehaviour
             }
             else
             {
-                talkCanvasAnimator.SetBool("isOpen", false);
-                isOpen = false;
-                playerMovement.speed = 20;
+                CloseButton();
             }
         }
     }
 
+    // 열리자마자 실행
     public void GeneratePhase(int x)
     {
-        Debug.Log("NPC 코드 확인");
         현재NPCData배열위치 = x;
 
-        for (int i = 0; i < DataManager.instance.nPCDatas[x].가능한페이즈리스트.Length; i++)
-        {
-            int npc페이즈코드 = DataManager.instance.nPCDatas[x].가능한페이즈리스트[i];
-            int Basicdatas_Index = (npc페이즈코드 / 100) - 1;
+        // 기본 npc 이름 및 대사 전달
+        TalkText.text = DataManager.instance.nPCDatas[현재NPCData배열위치].NPC기본대사;
+        NameText.text = DataManager.instance.nPCDatas[현재NPCData배열위치].NPC이름;
 
-            for (int j = 0; j < DataManager.instance.basicDatas[Basicdatas_Index].페이즈리스트.Length; j++)
-            {
-                int phaseCode = DataManager.instance.basicDatas[Basicdatas_Index].페이즈리스트[j].페이즈코드;
+        for (int i = 0; i < DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트.Length; i++)
+        {
+            int npc페이즈코드 = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[i].페이즈코드;
+            현재베이직데이터인덱스 = (npc페이즈코드 / 100) - 1;
+
+            for (int j = 0; j < DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트.Length; j++)
+            {               
+                int phaseCode = DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[j].페이즈코드;
 
                 if (npc페이즈코드 == phaseCode &&
-                    DataManager.instance.basicDatas[Basicdatas_Index].페이즈리스트[j].페이즈활성여부 == true)
+                    DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[j].페이즈활성여부 == true)
                 {
-                    Debug.Log("출력!");
+                    현재베이직페이즈인덱스 = j;
+
                     페이즈리스트[i].SetActive(true);
 
                     // 페이즈 내용 변경
                     페이즈리스트[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
-                        DataManager.instance.basicDatas[Basicdatas_Index].페이즈리스트[j].페이즈데이터;
+                        DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[j].페이즈데이터;
 
                     // 페이즈 이름 변경
                     페이즈리스트[i].transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
-                        DataManager.instance.basicDatas[Basicdatas_Index].이름;
+                        DataManager.instance.basicDatas[현재베이직데이터인덱스].이름;
+
+                    // 각 페이즈에 인덱스 정보 저장
+                    페이즈리스트[i].GetComponent<PhaseInfo>().페이즈인덱스 = i;
 
                     break;
                 }
             }
         }
+    }
+
+    // 초기에 페이즈 버튼 눌렀을때
+    public void PhaseButtonClicked(int clickedIndex)
+    {
+        talkCanvasAnimator.SetBool("isTalk", true);
+        현재페이즈인덱스 = clickedIndex;
+
+        // 현재 진행 중인 대화의 위치
+        // string x = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[i].저장한대화;
+
+        현재대화인덱스 = 0;
+        대화최대인덱스 = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트.Length;
+
+        UpdateTalkData();
+
+        // NPC Data의 페이즈 코드를 받아서 대화 정보를 저장할 캐릭터의 위치 확인
+        현재베이직데이터인덱스 = (DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].페이즈코드 / 100) - 1;
+
+        // 메모 저장 확인
+        SaveButtonCheck();
+
+        대화종료버튼.SetActive(false);
+        NextButton.interactable = true;
+        BeforeButton.interactable = false;
+    }
+
+
+
+    public void AddComment()
+    {
+        // 대화 데이터 전달
+        DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].저장한대화 =
+            DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화데이터;
+
+
+        for (int i = 0; i < DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트.Length; i++)
+        {
+            if (DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[i].페이즈코드 ==
+                DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].페이즈코드)
+            {
+                // 위치를 한번이라도 지정하지 않았다면 위치 지정
+                if (DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].저장된대화위치 == 0)
+                {
+                    for (int j = 0; j < DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[i].코멘트데이터.Length; j++)
+                    {
+                        // 빈 데이터 확인
+                        if (DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[i].코멘트데이터[j] == "")
+                        {
+                            DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].저장된대화위치 = j + 1;                          
+                            break;
+                        }
+                    }
+                }
+
+                현재저장된코멘트데이터인덱스 = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].저장된대화위치 - 1;
+
+                // 버튼 저장 여부 초기화
+                for (int n = 0; n < DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트.Length; n ++)
+                {
+                    DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[n].저장한대화여부 = false;
+                }
+
+                // 버튼 저장 여부 정보 전달
+                DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].저장한대화여부 = true;
+
+                DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[i].코멘트데이터[현재저장된코멘트데이터인덱스] =
+                    DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화데이터;
+
+                SaveButtonCheck();
+
+                break;
+            }
+        }
+    }
+
+    public void SaveButtonCheck()
+    {
+        if (DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].저장한대화여부 == true)
+        {
+            commentSaveButton.interactable = false;
+        }
+        else
+        {
+            commentSaveButton.interactable = true;
+        }
+    }
+
+    public void TalkNext()
+    {      
+        현재대화인덱스++;
+        if (현재대화인덱스 >= 대화최대인덱스 - 1)
+        {
+            // 다음 버튼 비활성화
+            NextButton.interactable = false;
+
+            // 대화 종료 활성화
+            대화종료버튼.SetActive(true);
+        }
+
+        SaveButtonCheck();
+
+        BeforeButton.interactable = true;
+
+        UpdateTalkData();
+    }
+
+    public void TalkBefore()
+    {
+        현재대화인덱스--;
+        if (현재대화인덱스 <= 0)
+        {
+            // 이전 버튼 비활성화
+            BeforeButton.interactable = false;           
+        }
+
+        NextButton.interactable = true;
+        대화종료버튼.SetActive(false);
+
+        SaveButtonCheck();
+
+        TalkText.text = DataManager.instance.nPCDatas[현재NPCData배열위치].NPC기본대사;
+        NameText.text = DataManager.instance.nPCDatas[현재NPCData배열위치].NPC이름;
+        UpdateTalkData();
+    }
+
+    public void EndTalk()
+    {
+        TalkText.text = DataManager.instance.nPCDatas[현재NPCData배열위치].NPC기본대사;
+        NameText.text = DataManager.instance.nPCDatas[현재NPCData배열위치].NPC이름;
+        talkCanvasAnimator.SetBool("isTalk", false);
+    }
+
+    public void UpdateTalkData()
+    {
+        현재대화데이터 = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화데이터;
+        TalkText.text = 현재대화데이터;
+        NameText.text = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화중인캐릭터이름;
     }
 
     public void DeletePhase()
@@ -106,7 +268,9 @@ public class TalkManager : MonoBehaviour
     public void CloseButton()
     {
         talkCanvasAnimator.SetBool("isOpen", false);
+        talkCanvasAnimator.SetBool("isTalk", false);
         isOpen = false;
+        playerMovement.speed = 20;
     }
 
 }
