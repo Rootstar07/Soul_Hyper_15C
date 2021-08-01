@@ -32,6 +32,7 @@ public class UIButton : MonoBehaviour
 
             peopleManager.UpdatePeople();
 
+            /*
             // npc 대화 중이라면 배경을 좀 더 어둡게
             if (npcData.activeSelf == true)
             {
@@ -41,6 +42,7 @@ public class UIButton : MonoBehaviour
             {
                 backGroundImage.enabled = false;
             }
+            */
         }
     }
 }
