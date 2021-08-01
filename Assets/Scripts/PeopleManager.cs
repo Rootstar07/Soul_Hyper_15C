@@ -16,6 +16,11 @@ public class PeopleManager : MonoBehaviour
     [Space]
     public GameObject phaseObject;
     public TextMeshProUGUI phaseText;
+    [Header("상태를 위한 색")]
+    public Color 기본색상;
+    public Color 실신색상;
+    public Color 실종색상;
+    public Color 사망색상;
 
     [Header("클릭한 인물의 정보")]
     public int 클릭한인물코드;
@@ -31,6 +36,13 @@ public class PeopleManager : MonoBehaviour
 
     void Start()
     {
+        UpdatePeople();
+    }
+
+
+    // 관계도에 표시 관리
+    public void UpdatePeople()
+    {
         // 리스트에 인물 데이터 넣기
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -40,13 +52,7 @@ public class PeopleManager : MonoBehaviour
         // 시작할때 한번 업데이트
         phaseObject.SetActive(false);
 
-        UpdatePeople();
 
-    }
-
-    // 관계도에 표시 관리
-    public void UpdatePeople()
-    {
         for (int i =0; i< DataManager.instance.basicDatas.Length; i++)
         {
             
@@ -56,6 +62,9 @@ public class PeopleManager : MonoBehaviour
 
                 // 이름관리
                 UpdateName(i);
+
+                // 상태관리
+                UpdateState(i);
             }
 
             else
@@ -75,6 +84,30 @@ public class PeopleManager : MonoBehaviour
         else
         {
             peopleList[code].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = DataManager.instance.basicDatas[code].이름;
+        }
+    }
+
+    void UpdateState(int code)
+    {
+        switch(DataManager.instance.basicDatas[code].상태)
+        {
+            case DataManager.CharacterState.정상:
+                peopleList[code].transform.GetChild(2).GetComponent<Image>().color = 기본색상;
+                peopleList[code].transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
+                break;
+            case DataManager.CharacterState.실신:
+                peopleList[code].transform.GetChild(2).GetComponent<Image>().color = 실신색상;
+                peopleList[code].transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "실신";
+                break;
+            case DataManager.CharacterState.실종:
+                peopleList[code].transform.GetChild(2).GetComponent<Image>().color = 실종색상;
+                peopleList[code].transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "실종";
+                break;
+            case DataManager.CharacterState.사망:
+                peopleList[code].transform.GetChild(2).GetComponent<Image>().color = 사망색상;
+                peopleList[code].transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "사망";
+                break;
+                
         }
     }
 

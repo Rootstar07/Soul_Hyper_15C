@@ -22,7 +22,6 @@ public class UIButton : MonoBehaviour
             peopleManager.DeletePeople();
             animator.SetBool("isOpen", false);
 
-            //Invoke("WaitForAni", 0.5f);
             
         }
         else
@@ -30,6 +29,8 @@ public class UIButton : MonoBehaviour
             // 캔버스 열기
             targetCanvas.SetActive(true);
             animator.SetBool("isOpen", true);
+
+            peopleManager.UpdatePeople();
 
             // npc 대화 중이라면 배경을 좀 더 어둡게
             if (npcData.activeSelf == true)
@@ -42,10 +43,4 @@ public class UIButton : MonoBehaviour
             }
         }
     }
-
-    public void WaitForAni()
-    {
-        targetCanvas.SetActive(false);
-    }
-
 }

@@ -15,9 +15,12 @@ public class DataManager : MonoBehaviour
     {
         public bool 인물활성화여부;
         public string 이름;
-        public bool 물음표여부;
+        public CharacterState 상태;
+        public bool 물음표여부;     
         public PlayerData[] 페이즈리스트;
     }
+
+    public enum CharacterState { 정상, 실신, 실종 , 사망 }
 
     [System.Serializable]
     public class PlayerData
