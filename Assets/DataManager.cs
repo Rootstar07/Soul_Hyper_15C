@@ -9,6 +9,8 @@ public class DataManager : MonoBehaviour
     public BasicData[] basicDatas;
     [Space]
     public NPCData[] nPCDatas;
+    [Space]
+    public ObjectDatas[] objectDatas;
 
     [System.Serializable]
     public class BasicData
@@ -74,6 +76,24 @@ public class DataManager : MonoBehaviour
         public State 표정;
         public int 활성화할페이즈;
         public int 활상화할오브젝트;
+    }
+
+    [System.Serializable]
+    public class ObjectDatas
+    {
+        public int 오브젝트코드;
+        public bool 대화가능여부;
+        public ObjectData[] 오브젝트대화리스트;
+    }
+
+        [System.Serializable]
+    public class ObjectData
+    {
+        public string 대화중인캐릭터이름;
+        public State 표정;
+        public int 활성화할페이즈;
+        [TextArea]
+        public string 대화데이터;
     }
 
     public enum State { 기본, 놀람, 분노, 슬픔 }

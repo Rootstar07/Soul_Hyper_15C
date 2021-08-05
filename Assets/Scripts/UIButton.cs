@@ -20,9 +20,7 @@ public class UIButton : MonoBehaviour
         {
             // 캔버스 닫기
             peopleManager.DeletePeople();
-            animator.SetBool("isOpen", false);
-
-            
+            animator.SetBool("isOpen", false);            
         }
         else
         {
@@ -31,18 +29,6 @@ public class UIButton : MonoBehaviour
             animator.SetBool("isOpen", true);
 
             peopleManager.UpdatePeople();
-
-            /*
-            // npc 대화 중이라면 배경을 좀 더 어둡게
-            if (npcData.activeSelf == true)
-            {
-                backGroundImage.enabled = true;
-            }
-            else
-            {
-                backGroundImage.enabled = false;
-            }
-            */
         }
     }
 }

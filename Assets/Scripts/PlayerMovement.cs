@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Space]
     public float gravity;
+    public bool canMove = true;
 
     private CharacterController controller; // 현재 캐릭터가 가지고있는 캐릭터 컨트롤러 콜라이더.
     private Vector3 MoveDir;                // 캐릭터의 움직이는 방향.
@@ -24,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Space]
     public int nPCCode;
+    public int objectCode;
 
     void Start()
     {
@@ -34,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // 현재 캐릭터가 땅에 있고 공격상태가 아니라면
-        if (controller.isGrounded)
+        if (controller.isGrounded && canMove == true)
         {
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) //하나라도 움직인다.
             {
