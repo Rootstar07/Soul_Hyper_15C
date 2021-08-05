@@ -371,6 +371,8 @@ public class TalkManager : MonoBehaviour
                     DataManager.instance.basicDatas[index].인물활성화여부 = true;
                     DataManager.instance.basicDatas[index].페이즈리스트[j].페이즈활성여부 = true;
 
+                    peopleAnimator.SetTrigger("isNewInformation");
+
                     break;
                 }
             }
