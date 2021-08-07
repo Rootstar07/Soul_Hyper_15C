@@ -48,13 +48,23 @@ public class DataManager : MonoBehaviour
     {
         public int NPC코드;
         public string NPC이름;
-        [TextArea]
-        public string NPC기본대사;
+        public BasicTalkData[] 기본대화데이터;
         [Space]
         public PhaseData[] 가능한페이즈리스트;
     }
 
     [System.Serializable]
+    public class BasicTalkData
+    {
+        public string 대화중인캐릭터이름;
+        public State 표정;
+        [TextArea]
+        public string 대화데이터;
+        public int 활성화할페이즈;
+        public int 활상화할오브젝트;
+    }
+
+        [System.Serializable]
     public class PhaseData
     {
         public int 페이즈코드;
@@ -82,7 +92,7 @@ public class DataManager : MonoBehaviour
     public class ObjectDatas
     {
         public int 오브젝트코드;
-        public bool 대화가능여부;
+        public bool 습득한정보여부;
         public ObjectData[] 오브젝트대화리스트;
     }
 

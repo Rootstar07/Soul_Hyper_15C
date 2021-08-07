@@ -5,27 +5,28 @@ using UnityEngine;
 public class ForNPC : MonoBehaviour
 {
     public GameObject alert;
-    public TalkManager talkManager;
     public int NPC코드;
 
     private void Start()
     {
-        alert.SetActive(false);
+        //alert.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            alert.SetActive(true);
+            //alert.SetActive(true);
             other.GetComponent<PlayerMovement>().nPCCode = NPC코드;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+
+        if (other.CompareTag("Player"))
         {
-            alert.SetActive(false);
+            //alert.SetActive(true);
             other.GetComponent<PlayerMovement>().nPCCode = 0;
         }
     }
