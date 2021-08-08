@@ -1390,7 +1390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -1493,7 +1493,7 @@ MonoBehaviour:
     value: 5
   focalLength:
     overrideState: 1
-    value: 250
+    value: 200
   kernelSize:
     overrideState: 1
     value: 3
