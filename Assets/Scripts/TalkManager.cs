@@ -265,6 +265,7 @@ public class TalkManager : MonoBehaviour
 
     }
 
+
     public void GenerateBasicText()
     {
         // 캔버스 열기 나중에 메모 버튼 없는 애니메이션 혹은 기본 대화 전용 애니메이션 만들자
