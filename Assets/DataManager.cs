@@ -11,8 +11,33 @@ public class DataManager : MonoBehaviour
     public NPCData[] nPCDatas;
     [Space]
     public ObjectDatas[] objectDatas;
+    [Header("사건 데이터")]
+    public CaseData[] caseDatas;
 
     [System.Serializable]
+    public class CaseData
+    {
+        public int 사건코드;
+        public string 사건이름;
+        public bool 사건활성여부;
+        public CaseData2[] 페이즈리스트;
+    }
+
+    [System.Serializable]
+    public class CaseData2
+    {
+        public int 페이즈코드;
+        public string 페이즈이름;
+        public bool 페이즈활성여부;
+        [TextArea]
+        public string 페이즈보충;
+        public bool 페이즈해결여부;
+        [TextArea]
+        public string 페이즈해설;
+    }
+
+
+        [System.Serializable]
     public class BasicData
     {
         public bool 인물활성화여부;
