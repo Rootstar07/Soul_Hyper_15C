@@ -37,5 +37,5 @@ Material:
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
     - _UseUIAlphaClip: 0
-    - _Vibrancy: 3
+    - _Vibrancy: 1
     m_Colors: []
