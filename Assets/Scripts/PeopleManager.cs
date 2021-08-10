@@ -213,7 +213,7 @@ public class PeopleManager : MonoBehaviour
 
         for (int i = 0; i < 6; i++)
         {
-            commentList[i].GetComponent<TextMeshProUGUI>().text =
+            commentList[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
                 DataManager.instance.basicDatas[클릭한인물코드].페이즈리스트[현재페이즈코드].코멘트데이터[i];
         }
     }
@@ -222,7 +222,7 @@ public class PeopleManager : MonoBehaviour
     {
         for (int i =0; i< 6; i++)
         {
-            commentList[i].GetComponent<TextMeshProUGUI>().text = "";
+            commentList[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
     }
 }

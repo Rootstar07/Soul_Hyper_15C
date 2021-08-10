@@ -53,16 +53,16 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 0
-    value: 0
+    value: -29.2
   tint:
     overrideState: 0
     value: 0
   colorFilter:
     overrideState: 0
-    value: {r: 1, g: 1, b: 1, a: 1}
+    value: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
   hueShift:
     overrideState: 0
-    value: -8
+    value: -36
   saturation:
     overrideState: 1
     value: -50
@@ -71,16 +71,16 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 0
-    value: 0
+    value: 4.01
   contrast:
     overrideState: 0
-    value: -9.9
+    value: 2.5
   mixerRedOutRedIn:
     overrideState: 0
     value: 100
   mixerRedOutGreenIn:
     overrideState: 0
-    value: 0
+    value: 4
   mixerRedOutBlueIn:
     overrideState: 0
     value: 0
@@ -1390,31 +1390,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
   intensity:
     overrideState: 1
-    value: 20
+    value: 50
   threshold:
-    overrideState: 1
-    value: 1
+    overrideState: 0
+    value: 0.77
   softKnee:
     overrideState: 1
-    value: 0.5
+    value: 0.778
   clamp:
     overrideState: 1
     value: 65472
   diffusion:
-    overrideState: 1
-    value: 7
+    overrideState: 0
+    value: 6.02
   anamorphicRatio:
     overrideState: 0
     value: 1
   color:
     overrideState: 0
-    value: {r: 1, g: 1, b: 1, a: 1}
+    value: {r: 0.125, g: 0.125, b: 0.125, a: 1}
   fastMode:
     overrideState: 1
     value: 1
@@ -1452,13 +1452,13 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.627
+    value: 0.5
   smoothness:
     overrideState: 1
     value: 1
   roundness:
     overrideState: 1
-    value: 0
+    value: 0.172
   rounded:
     overrideState: 0
     value: 0
