@@ -20,7 +20,16 @@ public class caseManager : MonoBehaviour
     [Header("페이즈 버튼")]
     public Button 이전버튼;
     public Button 이후버튼;
-    
+
+    // --------------- 인물 ---------------
+
+    public void PeoepleClicked()
+    {
+
+    }
+
+    // --------------- 사건 ---------------
+
     public void CaseClicked(int code)
     {      
         페이즈오브젝트.SetActive(true);
@@ -89,9 +98,7 @@ public class caseManager : MonoBehaviour
 
     public void SetPhase()
     {
-        Debug.Log(페이즈인덱스);
-
-        페이즈대상.text = DataManager.instance.caseDatas[caseCode].사건이름;
+        페이즈대상.text = DataManager.instance.caseDatas[caseCode].사건이름.ToString();
         페이즈.text = DataManager.instance.caseDatas[caseCode].페이즈리스트[페이즈인덱스].페이즈이름;
         보충.text = DataManager.instance.caseDatas[caseCode].페이즈리스트[페이즈인덱스].페이즈보충;
 

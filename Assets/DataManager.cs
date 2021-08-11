@@ -16,11 +16,11 @@ public class DataManager : MonoBehaviour
     [System.Serializable]
     public class PeopleData
     {
-        public string 이름;
+        //public int 인물코드;
+        public People 이름;
+        public bool 인물활성여부;
         public string 나이;
-        public string 신분;
-        public bool 물음표여부;
-        public bool 인물활성화여부;
+        public Identity 신분;
         public CharacterState 상태;
         public PeopleData2[] 특이사항리스트;
     }
@@ -28,8 +28,9 @@ public class DataManager : MonoBehaviour
     [System.Serializable]
     public class PeopleData2
     {
-        // 기존의 페이즈 정보는 case에서 관리
-        // 여기는 특이사항등을 기술
+        public bool 특이사항활성여부;
+        [TextArea]
+        public string 특이사항내용;
     }
 
     //----------------------------------------------
@@ -37,8 +38,8 @@ public class DataManager : MonoBehaviour
     [System.Serializable]
     public class CaseData
     {
-        public int 사건코드;
-        public string 사건이름;
+        //public int 사건코드;
+        public Case 사건이름;
         public bool 사건활성여부;
         public CaseData2[] 페이즈리스트;
     }
@@ -82,8 +83,11 @@ public class DataManager : MonoBehaviour
         public State 표정;
         [TextArea]
         public string 대화데이터;
+        [Header("활성화할 코드, 활성사건, 활성인물은 코드에 + 1을 할것")]
+        public Case 활성사건;
         public int 활성페이즈;
         public int 해결페이즈;
+        public People 활성인물;
     }
 
     //----------------------------------------------
@@ -93,6 +97,31 @@ public class DataManager : MonoBehaviour
 
     // 표정
     public enum State { 기본, 놀람, 분노, 슬픔 }
+
+    // 신분
+    public enum Identity { 백정, 노비, 농민, 기생, 무당, 양반, 행인 }
+
+    // 인물리스트
+    public enum People
+    {
+        없음,
+        한백정,
+        강기생,
+        박농민,
+        아기무당씨,
+        하영,
+        메건,
+        롬쌔,
+        션
+    }
+
+    // 사건리스트
+    public enum Case
+    {
+        없음,
+        돼지머리,
+        정승의비밀
+    }
 
     public static DataManager instance;
 
@@ -109,6 +138,9 @@ public class DataManager : MonoBehaviour
         string jsonData1 = JsonConvert.SerializeObject(nPCDatas);
         File.WriteAllText(Application.persistentDataPath + "/NPCData.json", jsonData1);
 
+        string jsonData2 = JsonConvert.SerializeObject(peopleDatas);
+        File.WriteAllText(Application.persistentDataPath + "/peopleDatas.json", jsonData2);
+
         Debug.Log("데이터 내보내기 완료");
     }
 
@@ -119,6 +151,9 @@ public class DataManager : MonoBehaviour
 
         string data1 = File.ReadAllText(Application.persistentDataPath + "/NPCData.json");
         nPCDatas = JsonConvert.DeserializeObject<NPCData[]>(data1);
+
+        string data2 = File.ReadAllText(Application.persistentDataPath + "/peopleDatas.json");
+        nPCDatas = JsonConvert.DeserializeObject<NPCData[]>(data2);
 
         Debug.Log("데이터 불러오기 완료");
     }

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using Newtonsoft.Json;
 using System.IO;
 
-
 public class PeopleManager : MonoBehaviour
 {
     [Header("모든 인물데이터의 리스트")]
@@ -26,23 +25,19 @@ public class PeopleManager : MonoBehaviour
     public int 클릭한인물코드;
     public int 클릭한인물의활성화된페이즈개수;
     public int 현재페이즈코드;
-    //public PhaseInfo[] 클릭한인물의전체페이즈;
     [Space]
     public Button beforeButton;
     public Button nextButton;
 
     public int 페이즈카운터 = 0;
 
-
     // 사람표시하는 친구 caseManager에서 관리함 여기는 사람 전용으로 하자
-
     void Start()
     {
-        //UpdatePeople();
+        // UpdatePeople();
     }
+
     /*
-
-
     // 관계도에 표시 관리
     public void UpdatePeople()
     {
@@ -76,6 +71,7 @@ public class PeopleManager : MonoBehaviour
             }
         }
     }
+
     
     // 이름 혹은 물음표 관리
     void UpdateName(int code)
@@ -109,8 +105,7 @@ public class PeopleManager : MonoBehaviour
             case DataManager.CharacterState.사망:
                 peopleList[code].transform.GetChild(2).GetComponent<Image>().color = 사망색상;
                 peopleList[code].transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "사망";
-                break;
-                
+                break;               
         }
     }
 
@@ -147,7 +142,6 @@ public class PeopleManager : MonoBehaviour
                     transform.GetChild(i).GetComponent<Animator>().SetBool("isFade", false);
                 }
             }
-
         }
     }
 
