@@ -37,7 +37,7 @@ public class DataManager : MonoBehaviour
     }
 
 
-        [System.Serializable]
+    [System.Serializable]
     public class BasicData
     {
         public bool 인물활성화여부;
@@ -75,7 +75,7 @@ public class DataManager : MonoBehaviour
         public string NPC이름;
         public BasicTalkData[] 기본대화데이터;
         [Space]
-        public PhaseData[] 가능한페이즈리스트;
+        public PhaseData[] 전체페이스리스트;
     }
 
     [System.Serializable]
@@ -85,11 +85,11 @@ public class DataManager : MonoBehaviour
         public State 표정;
         [TextArea]
         public string 대화데이터;
-        public int 활성화할페이즈;
-        public int 활상화할오브젝트;
+        public int 활성페이즈;
+        public int 해결페이즈;
     }
 
-        [System.Serializable]
+    [System.Serializable]
     public class PhaseData
     {
         public int 페이즈코드;
@@ -109,7 +109,7 @@ public class DataManager : MonoBehaviour
         [TextArea]
         public string 대화데이터;
         public State 표정;
-        public int 활성화할페이즈;
+        public int 활성페이즈;
         public int 활상화할오브젝트;
     }
 
@@ -126,7 +126,7 @@ public class DataManager : MonoBehaviour
     {
         public string 대화중인캐릭터이름;
         public State 표정;
-        public int 활성화할페이즈;
+        public int 활성페이즈;
         [TextArea]
         public string 대화데이터;
     }

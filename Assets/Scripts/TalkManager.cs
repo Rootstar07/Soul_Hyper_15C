@@ -193,9 +193,9 @@ public class TalkManager : MonoBehaviour
         TalkText.text = "";
         NameText.text = DataManager.instance.nPCDatas[현재NPCData배열위치].NPC이름;
 
-        for (int i = 0; i < DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트.Length; i++)
+        for (int i = 0; i < DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트.Length; i++)
         {
-            int npc페이즈코드 = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[i].페이즈코드;
+            int npc페이즈코드 = DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[i].페이즈코드;
             현재베이직데이터인덱스 = (npc페이즈코드 / 100) - 1;
 
             for (int j = 0; j < DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트.Length; j++)
@@ -239,14 +239,14 @@ public class TalkManager : MonoBehaviour
             // string x = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[i].저장한대화;
 
             현재대화인덱스 = 0;
-            대화최대인덱스 = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트.Length;
+            대화최대인덱스 = DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트.Length;
 
             UpdateTalkData();
 
             CheckPhaseData();
 
             // NPC Data의 페이즈 코드를 받아서 대화 정보를 저장할 캐릭터의 위치 확인
-            현재베이직데이터인덱스 = (DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].페이즈코드 / 100) - 1;
+            현재베이직데이터인덱스 = (DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].페이즈코드 / 100) - 1;
 
             // 메모 저장 확인
             SaveButtonCheck();
@@ -339,42 +339,42 @@ public class TalkManager : MonoBehaviour
     public void AddComment()
     {
         // 대화 데이터 전달
-        DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].저장한대화 =
-            DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화데이터;
+        DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].저장한대화 =
+            DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화데이터;
 
 
         for (int i = 0; i < DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트.Length; i++)
         {
             if (DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[i].페이즈코드 ==
-                DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].페이즈코드)
+                DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].페이즈코드)
             {
                 // 위치를 한번이라도 지정하지 않았다면 위치 지정
-                if (DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].저장된대화위치 == 0)
+                if (DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].저장된대화위치 == 0)
                 {
                     for (int j = 0; j < DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[i].코멘트데이터.Length; j++)
                     {
                         // 빈 데이터 확인
                         if (DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[i].코멘트데이터[j] == "")
                         {
-                            DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].저장된대화위치 = j + 1;                          
+                            DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].저장된대화위치 = j + 1;                          
                             break;
                         }
                     }
                 }
 
-                현재저장된코멘트데이터인덱스 = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].저장된대화위치 - 1;
+                현재저장된코멘트데이터인덱스 = DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].저장된대화위치 - 1;
 
                 // 버튼 저장 여부 초기화
-                for (int n = 0; n < DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트.Length; n ++)
+                for (int n = 0; n < DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트.Length; n ++)
                 {
-                    DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[n].저장한대화여부 = false;
+                    DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트[n].저장한대화여부 = false;
                 }
 
                 // 버튼 저장 여부 정보 전달
-                DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].저장한대화여부 = true;
+                DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].저장한대화여부 = true;
 
                 DataManager.instance.basicDatas[현재베이직데이터인덱스].페이즈리스트[i].코멘트데이터[현재저장된코멘트데이터인덱스] =
-                    DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화데이터;
+                    DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화데이터;
 
                 SaveButtonCheck();
 
@@ -385,7 +385,7 @@ public class TalkManager : MonoBehaviour
 
     public void SaveButtonCheck()
     {
-        if (DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].저장한대화여부 == true)
+        if (DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].저장한대화여부 == true)
         {
             commentSaveButton.interactable = false;
         }
@@ -461,14 +461,14 @@ public class TalkManager : MonoBehaviour
     // 새로운 페이즈와 인물이 있다면 여기서 업데이트
     public void CheckPhaseData()
     {
-        if (DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].활성화할페이즈 != 0)
+        if (DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].활성화할페이즈 != 0)
         {          
-            int index = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].활성화할페이즈 / 100 - 1;
+            int index = DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].활성화할페이즈 / 100 - 1;
 
             for (int j = 0; j < DataManager.instance.basicDatas[index].페이즈리스트.Length; j++)
             {
                 if (DataManager.instance.basicDatas[index].페이즈리스트[j].페이즈코드 ==
-                    DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].활성화할페이즈 
+                    DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].활성화할페이즈 
                     && DataManager.instance.basicDatas[index].페이즈리스트[j].페이즈활성여부 == false)
                 {
                     DataManager.instance.basicDatas[index].인물활성화여부 = true;
@@ -484,9 +484,9 @@ public class TalkManager : MonoBehaviour
 
     public void UpdateTalkData()
     {
-        현재대화데이터 = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화데이터;
+        현재대화데이터 = DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화데이터;
         TalkText.text = 현재대화데이터;
-        NameText.text = DataManager.instance.nPCDatas[현재NPCData배열위치].가능한페이즈리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화중인캐릭터이름;
+        NameText.text = DataManager.instance.nPCDatas[현재NPCData배열위치].전체페이스리스트[현재페이즈인덱스].대화리스트[현재대화인덱스].대화중인캐릭터이름;
     }
 
     public void DeletePhase()
