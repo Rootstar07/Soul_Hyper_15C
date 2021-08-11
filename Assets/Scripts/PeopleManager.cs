@@ -34,10 +34,13 @@ public class PeopleManager : MonoBehaviour
     public int 페이즈카운터 = 0;
 
 
+    // 사람표시하는 친구 caseManager에서 관리함 여기는 사람 전용으로 하자
+
     void Start()
     {
-        UpdatePeople();
+        //UpdatePeople();
     }
+    /*
 
 
     // 관계도에 표시 관리
@@ -225,4 +228,7 @@ public class PeopleManager : MonoBehaviour
             commentList[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
         }
     }
+
+    */
+
 }

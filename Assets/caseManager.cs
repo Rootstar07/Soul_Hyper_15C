@@ -21,8 +21,6 @@ public class caseManager : MonoBehaviour
     public Button 이전버튼;
     public Button 이후버튼;
     
-
-
     public void CaseClicked(int code)
     {      
         페이즈오브젝트.SetActive(true);

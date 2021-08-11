@@ -10,7 +10,7 @@ public class PeopleData : MonoBehaviour
     // 클릭해서 부모 컴포넌트에 정보전달
     public void PeopleClicked()
     {
-        transform.parent.GetComponent<PeopleManager>().ClickedPeople(인물코드);
+        // transform.parent.GetComponent<PeopleManager>().ClickedPeople(인물코드);
     }
 
 }

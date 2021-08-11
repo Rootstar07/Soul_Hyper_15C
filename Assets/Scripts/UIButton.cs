@@ -4,14 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
 public class UIButton : MonoBehaviour
 {
     public GameObject targetCanvas;
-    public PeopleManager peopleManager;
     public Animator animator;
     [Space]
-    public GameObject npcData;
     public Image backGroundImage;
 
     public void OpenCloseUI()
@@ -19,7 +16,6 @@ public class UIButton : MonoBehaviour
         if (targetCanvas.activeSelf)
         {
             // 캔버스 닫기
-            peopleManager.DeletePeople();
             animator.SetBool("isOpen", false);            
         }
         else
@@ -28,7 +24,6 @@ public class UIButton : MonoBehaviour
             targetCanvas.SetActive(true);
             animator.SetBool("isOpen", true);
 
-            peopleManager.UpdatePeople();
         }
     }
 }
