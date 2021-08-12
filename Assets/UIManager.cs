@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,6 +16,11 @@ public class UIManager : MonoBehaviour
     [Space]
     public GameObject 배경;
     public Animator animator;
+    [Space]
+    public Color 정상;
+    public Color 실신;
+    public Color 실종;
+    public Color 사망;
 
 
 
@@ -84,6 +91,36 @@ public class UIManager : MonoBehaviour
             if (DataManager.instance.peopleDatas[i].인물활성여부 == true)
             {
                 사람리스트[i].SetActive(true);
+
+                // 이름 넣기
+                사람리스트[i].transform.GetChild(0).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                    DataManager.instance.peopleDatas[i].이름.ToString();
+
+                // 상태 관리
+                switch (DataManager.instance.peopleDatas[i].상태)
+                {
+                    case DataManager.CharacterState.실신:
+                        사람리스트[i].transform.GetChild(0).transform.GetChild(2).GetComponent<Image>().color = 실신;
+                        사람리스트[i].transform.GetChild(0).transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                            "실신";
+                        break;
+                    case DataManager.CharacterState.실종:
+                        사람리스트[i].transform.GetChild(0).transform.GetChild(2).GetComponent<Image>().color = 실종;
+                        사람리스트[i].transform.GetChild(0).transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                            "실종";
+                        break;
+                    case DataManager.CharacterState.사망:
+                        사람리스트[i].transform.GetChild(0).transform.GetChild(2).GetComponent<Image>().color = 사망;
+                        사람리스트[i].transform.GetChild(0).transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                            "사망";
+                        break;
+                    case DataManager.CharacterState.정상:
+                        사람리스트[i].transform.GetChild(0).transform.GetChild(2).GetComponent<Image>().color = 정상;
+                        사람리스트[i].transform.GetChild(0).transform.GetChild(2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text =
+                            "";
+                        break;
+
+                }
             }
             else
             {

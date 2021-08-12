@@ -18,9 +18,10 @@ public class DataManager : MonoBehaviour
     {
         //public int 인물코드;
         public People 이름;
-        public bool 인물활성여부;
-        public string 나이;
         public Identity 신분;
+        public bool 인물활성여부;
+        [Range(1,100)]
+        public int 나이;
         public CharacterState 상태;
         public PeopleData2[] 특이사항리스트;
     }
@@ -99,20 +100,24 @@ public class DataManager : MonoBehaviour
     public enum State { 기본, 놀람, 분노, 슬픔 }
 
     // 신분
-    public enum Identity { 백정, 노비, 농민, 기생, 무당, 양반, 행인 }
+    public enum Identity { 백정, 노비, 농민, 기생, 무당, 양반, 행인, 의원 }
 
     // 인물리스트
     public enum People
     {
         없음,
-        한백정,
-        강기생,
-        박농민,
-        아기무당씨,
-        하영,
-        메건,
-        롬쌔,
-        션
+        설룡,
+        두루,
+        하진,
+        하설,
+        사월,
+        막개,
+        아람,
+        임대혁,
+        임홍결,
+        오산,
+        사비울,
+        사혜
     }
 
     // 사건리스트
