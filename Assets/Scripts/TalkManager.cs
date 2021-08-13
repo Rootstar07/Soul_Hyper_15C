@@ -57,6 +57,8 @@ public class TalkManager : MonoBehaviour
                     talkCanvasAnimator.SetBool("isOpen", true);
                     isOpen = true;
 
+                    DeletePhases();
+
                     // 현재 대화중인 NPC의 코드 확인
                     nowNPCCode = playerMovement.nPCCode;
 
@@ -77,80 +79,163 @@ public class TalkManager : MonoBehaviour
         }
     }
 
+    // 기본 대화 전용 활성,해결할 페이즈나 인물을 확인
+    public void ScanBaiscPhase()
+    {
+       if (DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].활성가능)
+        {
+            // 사건 활성
+            if (DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].활성사건 != 0)
+            {
+                // 인덱스 추출
+                int index =
+                    (int)DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].활성사건 - 1;
+
+                DataManager.instance.caseDatas[index].사건활성여부 = true;
+
+                사건버블.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                    DataManager.instance.caseDatas[index].사건이름.ToString();
+
+                사건버블.GetComponent<Animator>().SetTrigger("Alert");
+
+            }
+
+            // 페이즈 활성
+            if (DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].활성페이즈 != 0)
+            {
+                int index =
+                    (DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].활성페이즈 / 100) - 1;
+
+                for (int i = 0; i < DataManager.instance.caseDatas[index].페이즈리스트.Length; i++)
+                {
+                    if (DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈코드 ==
+                        DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].활성페이즈)
+                    {
+                        DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈활성여부 = true;
+
+                        페이즈버블.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                            DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈이름;
+
+                        페이즈버블.GetComponent<Animator>().SetTrigger("Alert");
+
+                        break;
+                    }
+                }
+            }
+
+            // 페이즈 해결
+            if (DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].해결페이즈 != 0)
+            {
+                int index =
+                    (DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].해결페이즈 / 100) - 1;
+
+                for (int i = 0; i < DataManager.instance.caseDatas[index].페이즈리스트.Length; i++)
+                {
+                    if (DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈코드 ==
+                        DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].해결페이즈)
+                    {
+                        DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈해결여부 = true;
+                        break;
+                    }
+                }
+            }
+
+            // 인물 활성
+            if (DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].활성인물 != 0)
+            {
+                // 인덱스 추출
+                int index =
+                    (int)DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].활성인물 - 1;
+
+                DataManager.instance.peopleDatas[index].인물활성여부 = true;
+
+                인물버블.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                    DataManager.instance.peopleDatas[index].이름.ToString();
+
+                인물버블.GetComponent<Animator>().SetTrigger("Alert");
+            }
+        }
+
+
+    }
+
     // 해당 대화내용에 활성화할 페이즈나 해결할 페이즈를 확인
     public void ScanPhase()
     {
-        // 사건 활성
-        if (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성사건 != 0)
+        if (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성가능)
         {
-            // 인덱스 추출
-            int index =
-                (int)DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성사건 - 1;
-
-            DataManager.instance.caseDatas[index].사건활성여부 = true;
-
-            사건버블.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
-                DataManager.instance.caseDatas[index].사건이름.ToString();
-
-            사건버블.GetComponent<Animator>().SetTrigger("Alert");
-            
-        }
-
-        // 페이즈 활성
-        if (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성페이즈 != 0)
-        {
-            int index =
-                (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성페이즈 / 100) - 1;
-
-            for (int i = 0; i < DataManager.instance.caseDatas[index].페이즈리스트.Length; i++)
+            // 사건 활성
+            if (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성사건 != 0)
             {
-                if (DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈코드 ==
-                    DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성페이즈)
+                // 인덱스 추출
+                int index =
+                    (int)DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성사건 - 1;
+
+                DataManager.instance.caseDatas[index].사건활성여부 = true;
+
+                사건버블.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                    DataManager.instance.caseDatas[index].사건이름.ToString();
+
+                사건버블.GetComponent<Animator>().SetTrigger("Alert");
+
+            }
+
+            // 페이즈 활성
+            if (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성페이즈 != 0)
+            {
+                int index =
+                    (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성페이즈 / 100) - 1;
+
+                for (int i = 0; i < DataManager.instance.caseDatas[index].페이즈리스트.Length; i++)
                 {
-                    DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈활성여부 = true;
+                    if (DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈코드 ==
+                        DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성페이즈)
+                    {
+                        DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈활성여부 = true;
 
-                    페이즈버블.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
-                        DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈이름;
+                        페이즈버블.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                            DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈이름;
 
-                    페이즈버블.GetComponent<Animator>().SetTrigger("Alert");
+                        페이즈버블.GetComponent<Animator>().SetTrigger("Alert");
 
-                    break;
+                        break;
+                    }
                 }
             }
-        }
 
-        // 페이즈 해결
-        if (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].해결페이즈 != 0)
-        {
-            int index =
-                (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].해결페이즈 / 100) - 1;
-
-            for (int i = 0; i < DataManager.instance.caseDatas[index].페이즈리스트.Length; i++)
+            // 페이즈 해결
+            if (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].해결페이즈 != 0)
             {
-                if (DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈코드 ==
-                    DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].해결페이즈)
+                int index =
+                    (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].해결페이즈 / 100) - 1;
+
+                for (int i = 0; i < DataManager.instance.caseDatas[index].페이즈리스트.Length; i++)
                 {
-                    DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈해결여부 = true;
-                    break;
+                    if (DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈코드 ==
+                        DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].해결페이즈)
+                    {
+                        DataManager.instance.caseDatas[index].페이즈리스트[i].페이즈해결여부 = true;
+                        break;
+                    }
                 }
             }
-        }
 
-        // 인물 활성
-        if (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성인물 != 0)
-        {
-            // enum int 변환
+            // 인물 활성
+            if (DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성인물 != 0)
+            {
+                // enum int 변환
 
-            // 인덱스 추출
-            int index =
-                (int)DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성인물 - 1;
+                // 인덱스 추출
+                int index =
+                    (int)DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].활성인물 - 1;
 
-            DataManager.instance.peopleDatas[index].인물활성여부 = true;
+                DataManager.instance.peopleDatas[index].인물활성여부 = true;
 
-            인물버블.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
-                DataManager.instance.peopleDatas[index].이름.ToString();
+                인물버블.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
+                    DataManager.instance.peopleDatas[index].이름.ToString();
 
-            인물버블.GetComponent<Animator>().SetTrigger("Alert");
+                인물버블.GetComponent<Animator>().SetTrigger("Alert");
+            }
         }
     }
 
@@ -268,7 +353,7 @@ public class TalkManager : MonoBehaviour
             DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].대화데이터;
 
         NameText.text =
-            DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].대화중인캐릭터이름;
+            DataManager.instance.nPCDatas[npc인덱스].전체페이스리스트[페이즈정보.페이즈인덱스].대화리스트[현재대화인덱스].대화중인캐릭터이름.ToString();
 
         ScanPhase();
     }
@@ -277,7 +362,9 @@ public class TalkManager : MonoBehaviour
     public void UpdateBasicText()
     {
         TalkText.text = DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].대화데이터;
-        NameText.text = DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].대화중인캐릭터이름;
+        NameText.text = DataManager.instance.nPCDatas[npc인덱스].기본대화데이터[현재대화인덱스].대화중인캐릭터이름.ToString();
+
+        ScanBaiscPhase();
     }
 
     public void TalkNext()
@@ -321,7 +408,7 @@ public class TalkManager : MonoBehaviour
     public void EndTalk()
     {
         TalkText.text = "";
-        NameText.text = DataManager.instance.nPCDatas[npc인덱스].NPC이름;
+        NameText.text = DataManager.instance.nPCDatas[npc인덱스].NPC이름.ToString();
         talkCanvasAnimator.SetBool("isTalk", false);
         기본대화여부 = false;
     }

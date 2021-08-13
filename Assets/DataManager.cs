@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
+//using NaughtyAttributes;
 
 public class DataManager : MonoBehaviour
 {
@@ -40,9 +41,11 @@ public class DataManager : MonoBehaviour
     public class CaseData
     {
         //public int 사건코드;
+        //[HorizontalLine(color: EColor.Red)]
         public Case 사건이름;
         public bool 사건활성여부;
         public CaseData2[] 페이즈리스트;
+        
     }
 
     [System.Serializable]
@@ -63,10 +66,10 @@ public class DataManager : MonoBehaviour
     [System.Serializable]
     public class NPCData
     {
+        //[HorizontalLine(color: EColor.Yellow)]
         public int NPC코드;
-        public string NPC이름;
+        public NPC NPC이름;
         public NPCData3[] 기본대화데이터;
-        [Space]
         public NPCData2[] 전체페이스리스트;
     }
 
@@ -80,15 +83,18 @@ public class DataManager : MonoBehaviour
     [System.Serializable]
     public class NPCData3
     {
-        public string 대화중인캐릭터이름;
+        //[HorizontalLine(color: EColor.Blue)]
+        public NPC 대화중인캐릭터이름;
         public State 표정;
         [TextArea]
         public string 대화데이터;
-        [Header("활성화할 코드, 활성사건, 활성인물은 코드에 + 1을 할것")]
+        [Space]
+        public bool 활성가능;
+        [Space]
         public Case 활성사건;
+        public People 활성인물;
         public int 활성페이즈;
         public int 해결페이즈;
-        public People 활성인물;
     }
 
     //----------------------------------------------
@@ -106,6 +112,22 @@ public class DataManager : MonoBehaviour
     public enum People
     {
         없음,
+        하진,
+        하설,
+        사월,
+        막개,
+        아람,
+        임대혁,
+        임홍결,
+        오산,
+        사비울,
+        사혜,
+        설룡,
+        두루,
+    }
+
+    public enum NPC
+    {
         설룡,
         두루,
         하진,
@@ -117,7 +139,11 @@ public class DataManager : MonoBehaviour
         임홍결,
         오산,
         사비울,
-        사혜
+        사혜,
+        농민,
+        노비,
+        의원,
+        선비
     }
 
     // 사건리스트
@@ -125,7 +151,9 @@ public class DataManager : MonoBehaviour
     {
         없음,
         돼지머리,
-        정승의비밀
+        정승의비밀,
+        무당의죽음,
+        외발귀신의비밀
     }
 
     public static DataManager instance;
